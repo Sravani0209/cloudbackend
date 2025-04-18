@@ -35,8 +35,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 
 app.get('/images', async (req, res) => {
   const params = {
-    Bucket: process.env.S3_BUCKET,
-    Prefix: 'uploads/'
+    Bucket: process.env.S3_BUCKET
   };
 
   try {
