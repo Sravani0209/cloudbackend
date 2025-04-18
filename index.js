@@ -21,8 +21,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     Bucket: process.env.S3_BUCKET,
     Key: `${Date.now()}-${req.file.originalname}`,
     Body: req.file.buffer,
-    ContentType: req.file.mimetype,
-    ACL: 'public-read'
+    ContentType: req.file.mimetype
   };
 
   try {
