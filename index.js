@@ -33,6 +33,27 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   }
 });
 
+app.get('/images', async (req, res) => {
+  const params = {
+    Bucket: process.env.S3_BUCKET,
+    Prefix: 'uploads/'
+  };
+
+  try {
+    const data = await s3.listObjectsV2(params).promise();
+
+    const images = data.Contents.map((item) => {
+      return `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${item.Key}`;
+    });
+
+    res.send(images);
+  } catch (err) {
+    console.error('S3 List Error:', err);
+    res.status(500).send('Failed to list images.');
+  }
+});
+
+
 app.listen(3000, () => {
   console.log('Backend listening on port 3000');
 });
